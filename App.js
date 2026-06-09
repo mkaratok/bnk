@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { DataProvider } from './src/context/DataContext';
 import AccountListScreen from './src/screens/AccountListScreenSimple';
+import AccountDetailScreen from './src/screens/AccountDetailScreen';
 import TransactionListScreen from './src/screens/TransactionListScreenSimple';
 import ReceiptScreen from './src/screens/ReceiptScreenSimple';
 import ManageAccountsScreen from './src/screens/ManageAccountsScreen';
@@ -22,6 +23,8 @@ export default function App() {
     if (currentScreen === 'receipt') {
       setCurrentScreen('transactions');
     } else if (currentScreen === 'transactions') {
+      setCurrentScreen('accountDetail');
+    } else if (currentScreen === 'accountDetail') {
       setCurrentScreen('accounts');
     } else if (currentScreen === 'manageAccounts' || currentScreen === 'manageTransactions') {
       setCurrentScreen('accounts');
@@ -32,6 +35,8 @@ export default function App() {
     switch (currentScreen) {
       case 'accounts':
         return <AccountListScreen navigate={navigate} />;
+      case 'accountDetail':
+        return <AccountDetailScreen navigate={navigate} goBack={goBack} account={selectedAccount} />;
       case 'transactions':
         return <TransactionListScreen navigate={navigate} goBack={goBack} account={selectedAccount} />;
       case 'receipt':

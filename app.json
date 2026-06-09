@@ -22,9 +22,6 @@
       "enabled": false,
       "fallbackToCacheTimeout": 0
     },
-    "packagerOpts": {
-      "dev": true
-    },
     "extra": {
       "eas": {
         "projectId": "local-dev"

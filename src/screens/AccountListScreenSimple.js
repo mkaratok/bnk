@@ -1,156 +1,394 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, StatusBar } from 'react-native';
+import {
+  View, Text, StyleSheet, TouchableOpacity, StatusBar,
+  SafeAreaView, ScrollView
+} from 'react-native';
 import { useData } from '../context/DataContext';
-import MenuModal from './MenuModal';
 
 const AccountListScreenSimple = ({ navigate }) => {
-  const { accounts } = useData();
-  const [menuVisible, setMenuVisible] = useState(false);
+  const { accounts, cards } = useData();
+  const [activeTab, setActiveTab] = useState('Ana Sayfa');
 
   const formatCurrency = (amount, currency) => {
-    return new Intl.NumberFormat('tr-TR', {
-      style: 'currency',
-      currency: currency,
+    let cur = currency === 'TRY' ? 'TL' : currency;
+    let formatted = new Intl.NumberFormat('tr-TR', {
       minimumFractionDigits: 2,
-    }).format(amount);
+      maximumFractionDigits: 2,
+    }).format(Math.abs(amount));
+    return `${formatted} ${cur}`;
   };
 
-  const renderAccount = ({ item }) => (
-    <TouchableOpacity
-      style={styles.accountCard}
-      onPress={() => navigate('transactions', { account: item })}
-    >
-      <View style={styles.accountHeader}>
-        <View style={styles.iconContainer}>
-          <Text style={styles.iconText}>💳</Text>
-        </View>
-        <View style={styles.accountInfo}>
-          <Text style={styles.accountName}>{item.accountName}</Text>
-          <Text style={styles.accountNumber}>{item.accountNumber}</Text>
-          <Text style={styles.accountType}>{item.type}</Text>
-        </View>
-      </View>
-      <View style={styles.balanceContainer}>
-        <Text style={styles.balanceLabel}>Bakiye</Text>
-        <Text style={styles.balanceAmount}>
-          {formatCurrency(item.balance, item.currency)}
-        </Text>
-      </View>
-    </TouchableOpacity>
-  );
+  const account = accounts[0];
+  const card = cards[0];
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#1a237e" />
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Hesaplarım</Text>
-        <TouchableOpacity onPress={() => setMenuVisible(true)}>
-          <Text style={styles.menuIcon}>☰</Text>
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={accounts}
-        renderItem={renderAccount}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContainer}
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
-      />
-      <MenuModal
-        visible={menuVisible}
-        onClose={() => setMenuVisible(false)}
-        navigate={navigate}
-      />
-    </View>
+      >
+        {/* Top Header Row */}
+        <View style={styles.topHeader}>
+          <TouchableOpacity style={styles.iconBtn}>
+            <Text style={styles.iconText}>⚙</Text>
+          </TouchableOpacity>
+          <View style={styles.logoWrap}>
+            <Text style={styles.logoText}>TEB</Text>
+          </View>
+          <View style={styles.iconBtn}>
+            <Text style={styles.iconText}>☆</Text>
+          </View>
+        </View>
+
+        {/* Size Ozel Section */}
+        <View style={styles.sizeOzelRow}>
+          <Text style={styles.starIcon}>☆</Text>
+          <Text style={styles.sizeOzelText}>Size Özel</Text>
+        </View>
+
+        {/* Campaign Banner */}
+        <View style={styles.banner}>
+          <View style={styles.bannerTextWrap}>
+            <Text style={styles.bannerTitle}>
+              Size özel indirim ve bonus fırsatlarını keşfedin.
+            </Text>
+            <Text style={styles.bannerLink}>Kampanyaları Gör</Text>
+          </View>
+          <View style={styles.bannerImageWrap}>
+            <Text style={styles.bannerImageText}>🛍</Text>
+          </View>
+        </View>
+
+        {/* Page Indicator */}
+        <View style={styles.dotsRow}>
+          <View style={[styles.dot, styles.dotActive]} />
+          <View style={styles.dot} />
+          <View style={styles.dot} />
+          <View style={styles.dot} />
+          <View style={styles.dot} />
+        </View>
+
+        {/* Calendar / Eye / Bell Row */}
+        <View style={styles.actionRow}>
+          <TouchableOpacity style={styles.actionBtn}>
+            <Text style={styles.actionIcon}>📅</Text>
+          </TouchableOpacity>
+          <View style={styles.actionRight}>
+            <TouchableOpacity style={styles.actionBtn}>
+              <Text style={styles.actionIcon}>�</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionBtn}>
+              <Text style={styles.actionIcon}>🔔</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Hesaplar Section */}
+        <View style={styles.sectionRow}>
+          <View style={styles.sectionLeft}>
+            <Text style={styles.sectionIcon}>💳</Text>
+            <Text style={styles.sectionTitle}>Hesaplar</Text>
+          </View>
+          <TouchableOpacity>
+            <Text style={styles.sectionLink}>TÜMÜNÜ GÖR</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Account Card */}
+        <TouchableOpacity
+          style={styles.accountCard}
+          onPress={() => navigate('accountDetail', { account })}
+          activeOpacity={0.9}
+        >
+          <View style={styles.accRow}>
+            <Text style={styles.accName}>{account.accountName}</Text>
+            <Text style={styles.accBalance}>{formatCurrency(account.balance, account.currency)}</Text>
+          </View>
+          <Text style={styles.accNumber}>{account.accountNumber}</Text>
+          <View style={styles.accRow}>
+            <Text style={styles.accLabel}>Kullanılabilir Bakiye</Text>
+            <Text style={styles.accBalance}>{formatCurrency(account.balance, account.currency)}</Text>
+          </View>
+        </TouchableOpacity>
+
+        {/* Kartlar Section */}
+        <View style={styles.sectionRow}>
+          <View style={styles.sectionLeft}>
+            <Text style={styles.sectionIcon}>💳</Text>
+            <Text style={styles.sectionTitle}>Kartlar</Text>
+          </View>
+          <TouchableOpacity>
+            <Text style={styles.sectionLink}>TÜMÜNÜ GÖR</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Card Card */}
+        <View style={styles.cardCard}>
+          <Text style={styles.cardName}>{card.cardName}</Text>
+          <Text style={styles.cardNumber}>{card.cardNumber}</Text>
+          <View style={styles.accRow}>
+            <Text style={styles.accLabel}>Ana Hesap Bakiyesi</Text>
+            <Text style={styles.accBalance}>{formatCurrency(card.balance, card.currency)}</Text>
+          </View>
+        </View>
+      </ScrollView>
+
+      {/* Bottom Tab Bar */}
+      <View style={styles.tabBar}>
+        {[
+          { label: 'Al Sat', icon: '📈' },
+          { label: 'Para Transferi', icon: '✈' },
+          { label: 'Ödemeler', icon: '📄' },
+          { label: 'Cüzdan', icon: '💳' },
+        ].map((tab) => (
+          <TouchableOpacity
+            key={tab.label}
+            style={styles.tabItem}
+            onPress={() => setActiveTab(tab.label)}
+          >
+            <Text style={styles.tabIcon}>{tab.icon}</Text>
+            <Text style={[
+              styles.tabLabel,
+              activeTab === tab.label && styles.tabLabelActive
+            ]}>{tab.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
   },
-  header: {
-    backgroundColor: '#1a237e',
-    paddingTop: 50,
+  content: {
+    flex: 1,
+  },
+  scrollContent: {
     paddingBottom: 20,
-    paddingHorizontal: 20,
+  },
+  topHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 4,
+  },
+  iconBtn: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconText: {
+    fontSize: 22,
+    color: '#009C4E',
+  },
+  logoWrap: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#009C4E',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  sizeOzelRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    marginTop: 8,
+    marginBottom: 4,
+  },
+  starIcon: {
+    fontSize: 18,
+    color: '#009C4E',
+    marginRight: 6,
+  },
+  sizeOzelText: {
+    fontSize: 16,
+    color: '#333',
+    fontWeight: '500',
+  },
+  banner: {
+    backgroundColor: '#F5F5F5',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    borderRadius: 12,
+    marginHorizontal: 16,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  bannerTextWrap: {
+    flex: 1,
+  },
+  bannerTitle: {
+    fontSize: 13,
+    color: '#333',
+    lineHeight: 18,
+  },
+  bannerLink: {
+    fontSize: 13,
+    color: '#009C4E',
+    fontWeight: '600',
+    marginTop: 4,
+  },
+  bannerImageWrap: {
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E8F5E9',
+    borderRadius: 8,
+    marginLeft: 10,
+  },
+  bannerImageText: {
+    fontSize: 28,
+  },
+  dotsRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 8,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#ccc',
+    marginHorizontal: 4,
+  },
+  dotActive: {
+    backgroundColor: '#555',
+  },
+  actionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    marginBottom: 12,
+  },
+  actionRight: {
+    flexDirection: 'row',
+  },
+  actionBtn: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  actionIcon: {
+    fontSize: 20,
+    color: '#009C4E',
+  },
+  sectionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    marginTop: 12,
+    marginBottom: 6,
+  },
+  sectionLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  sectionIcon: {
+    fontSize: 18,
+    color: '#666',
+    marginRight: 8,
+  },
+  sectionTitle: {
+    fontSize: 15,
+    color: '#333',
+    fontWeight: '500',
+  },
+  sectionLink: {
+    fontSize: 13,
+    color: '#009C4E',
+    fontWeight: '600',
+  },
+  accountCard: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 8,
+    marginHorizontal: 16,
+    padding: 14,
+    marginBottom: 8,
+  },
+  accRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  listContainer: {
-    padding: 16,
-  },
-  accountCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  accountHeader: {
-    flexDirection: 'row',
-    marginBottom: 16,
-  },
-  iconContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#1a237e',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  accountInfo: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  accountName: {
-    fontSize: 16,
-    fontWeight: '600',
+  accName: {
+    fontSize: 15,
     color: '#333',
-    marginBottom: 4,
+    fontWeight: '500',
   },
-  accountNumber: {
-    fontSize: 12,
+  accNumber: {
+    fontSize: 13,
     color: '#666',
-    marginBottom: 2,
+    marginVertical: 4,
   },
-  accountType: {
-    fontSize: 11,
-    color: '#999',
-  },
-  balanceContainer: {
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-    paddingTop: 12,
-  },
-  balanceLabel: {
-    fontSize: 12,
+  accLabel: {
+    fontSize: 13,
     color: '#666',
-    marginBottom: 4,
+    marginTop: 4,
   },
-  balanceAmount: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1a237e',
+  accBalance: {
+    fontSize: 15,
+    color: '#333',
+    fontWeight: '500',
   },
-  iconText: {
-    fontSize: 24,
+  cardCard: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 8,
+    marginHorizontal: 16,
+    padding: 14,
+    marginBottom: 12,
+  },
+  cardName: {
+    fontSize: 15,
+    color: '#333',
+    fontWeight: '600',
+  },
+  cardNumber: {
+    fontSize: 13,
+    color: '#666',
+    marginVertical: 4,
+  },
+  tabBar: {
+    flexDirection: 'row',
+    backgroundColor: '#009C4E',
+    paddingBottom: 8,
+    paddingTop: 10,
+  },
+  tabItem: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabIcon: {
+    fontSize: 18,
+    color: '#fff',
+    marginBottom: 3,
+  },
+  tabLabel: {
+    fontSize: 10,
     color: '#fff',
   },
-  menuIcon: {
-    fontSize: 28,
-    color: '#fff',
+  tabLabelActive: {
+    fontWeight: '600',
   },
 });
 

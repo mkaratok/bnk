@@ -1,10 +1,11 @@
 import React, { createContext, useState, useContext } from 'react';
-import { accounts as initialAccounts, transactions as initialTransactions, receipts as initialReceipts } from '../data/mockData';
+import { accounts as initialAccounts, cards as initialCards, transactions as initialTransactions, receipts as initialReceipts } from '../data/mockData';
 
 const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const [accounts, setAccounts] = useState(initialAccounts);
+  const [cards, setCards] = useState(initialCards);
   const [transactions, setTransactions] = useState(initialTransactions);
   const [receipts, setReceipts] = useState(initialReceipts);
 
@@ -91,6 +92,7 @@ export const DataProvider = ({ children }) => {
   return (
     <DataContext.Provider value={{
       accounts,
+      cards,
       transactions,
       receipts,
       addAccount,

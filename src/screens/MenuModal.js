@@ -3,9 +3,7 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 
 const MenuModal = ({ visible, onClose, navigate }) => {
   const menuItems = [
-    { icon: '🏠', label: 'Ana Sayfa', screen: 'accounts' },
-    { icon: '💳', label: 'Hesap Yönetimi', screen: 'manageAccounts' },
-    { icon: '⇄', label: 'İşlem Yönetimi', screen: 'manageTransactions' },
+    { icon: 'H', label: 'Hesaplarım', screen: 'accounts' },
   ];
 
   const handleNavigate = (screen) => {
@@ -23,7 +21,9 @@ const MenuModal = ({ visible, onClose, navigate }) => {
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
           <View style={styles.modalHeader}>
-            <Text style={styles.headerIcon}>🏢</Text>
+            <View style={styles.logoBox}>
+              <Text style={styles.logoText}>QNB</Text>
+            </View>
             <Text style={styles.modalTitle}>Menü</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
               <Text style={styles.closeIcon}>✕</Text>
@@ -36,8 +36,11 @@ const MenuModal = ({ visible, onClose, navigate }) => {
                 key={index}
                 style={styles.menuItem}
                 onPress={() => handleNavigate(item.screen)}
+                activeOpacity={0.8}
               >
-                <Text style={styles.menuIcon}>{item.icon}</Text>
+                <View style={styles.menuIconBox}>
+                  <Text style={styles.menuIconText}>{item.icon}</Text>
+                </View>
                 <Text style={styles.menuItemText}>{item.label}</Text>
                 <Text style={styles.chevron}>›</Text>
               </TouchableOpacity>
@@ -45,7 +48,9 @@ const MenuModal = ({ visible, onClose, navigate }) => {
           </View>
 
           <View style={styles.footer}>
-            <Text style={styles.footerText}>Banka Uygulaması v1.0.0</Text>
+            <View style={styles.footerLine} />
+            <Text style={styles.footerText}>QNB Finansbank Mobil v1.0.0</Text>
+            <Text style={styles.footerSubtext}>Tüm hakları saklıdır</Text>
           </View>
         </View>
       </View>
@@ -56,15 +61,15 @@ const MenuModal = ({ visible, onClose, navigate }) => {
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(27, 54, 93, 0.5)',
     justifyContent: 'flex-end',
   },
   modalContent: {
     backgroundColor: '#fff',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingBottom: 40,
-    maxHeight: '70%',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingBottom: 32,
+    maxHeight: '60%',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -72,17 +77,36 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: '#EDF2F7',
+  },
+  logoBox: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    backgroundColor: '#1B365D',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#fff',
+    letterSpacing: 0.5,
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1a237e',
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#1B365D',
     flex: 1,
     marginLeft: 12,
   },
   closeButton: {
     padding: 4,
+  },
+  closeIcon: {
+    fontSize: 22,
+    color: '#8898AA',
+    fontWeight: '400',
   },
   menuItems: {
     paddingVertical: 10,
@@ -90,40 +114,54 @@ const styles = StyleSheet.create({
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingVertical: 14,
     paddingHorizontal: 20,
   },
+  menuIconBox: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: '#FFF3E6',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 14,
+  },
+  menuIconText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#F26522',
+  },
   menuItemText: {
-    fontSize: 16,
-    color: '#333',
-    marginLeft: 16,
+    fontSize: 15,
+    color: '#1B365D',
     flex: 1,
-    fontWeight: '500',
+    fontWeight: '600',
+  },
+  chevron: {
+    fontSize: 18,
+    color: '#CBD5E0',
   },
   footer: {
     alignItems: 'center',
     paddingTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
     marginTop: 10,
+  },
+  footerLine: {
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#EDF2F7',
+    marginBottom: 16,
   },
   footerText: {
     fontSize: 12,
-    color: '#999',
+    color: '#8898AA',
+    fontWeight: '600',
   },
-  headerIcon: {
-    fontSize: 40,
-  },
-  closeIcon: {
-    fontSize: 28,
-    color: '#666',
-  },
-  menuIcon: {
-    fontSize: 24,
-  },
-  chevron: {
-    fontSize: 20,
-    color: '#999',
+  footerSubtext: {
+    fontSize: 11,
+    color: '#CBD5E0',
+    marginTop: 4,
   },
 });
 
