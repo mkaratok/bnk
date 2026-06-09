@@ -50,8 +50,8 @@ const AccountDetailScreen = ({ navigate, goBack, account }) => {
           </View>
           <Text style={styles.headerSubtitle}>{account.accountNumber}</Text>
         </View>
-        <TouchableOpacity style={styles.settingsBtn}>
-          <Text style={styles.settingsIcon}>⚙</Text>
+        <TouchableOpacity style={styles.searchBtn}>
+          <Text style={styles.searchIcon}>🔍</Text>
         </TouchableOpacity>
       </View>
 
@@ -173,13 +173,13 @@ const styles = StyleSheet.create({
     color: '#888',
     marginTop: 1,
   },
-  settingsBtn: {
+  searchBtn: {
     width: 40,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  settingsIcon: {
+  searchIcon: {
     fontSize: 20,
     color: '#009C4E',
   },

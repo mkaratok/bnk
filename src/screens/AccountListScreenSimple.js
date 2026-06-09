@@ -30,36 +30,29 @@ const AccountListScreenSimple = ({ navigate }) => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Top Header Row */}
-        <View style={styles.topHeader}>
-          <TouchableOpacity style={styles.iconBtn}>
-            <Text style={styles.iconText}>⚙</Text>
-          </TouchableOpacity>
-          <View style={styles.logoWrap}>
-            <Text style={styles.logoText}>TEB</Text>
+        {/* Profile Header */}
+        <View style={styles.profileHeader}>
+          <View style={styles.avatarCircle}>
+            <Text style={styles.avatarText}>U</Text>
           </View>
-          <View style={styles.iconBtn}>
-            <Text style={styles.iconText}>☆</Text>
-          </View>
-        </View>
-
-        {/* Size Ozel Section */}
-        <View style={styles.sizeOzelRow}>
-          <Text style={styles.starIcon}>☆</Text>
-          <Text style={styles.sizeOzelText}>Size Özel</Text>
+          <Text style={styles.profileName}>UĞUR AYHAN</Text>
+          <Text style={styles.profileSub}>Size Özel</Text>
         </View>
 
         {/* Campaign Banner */}
         <View style={styles.banner}>
+          <View style={styles.bannerBadge}>
+            <Text style={styles.bannerBadgeText}>1</Text>
+          </View>
           <View style={styles.bannerTextWrap}>
-            <Text style={styles.bannerTitle}>
+            <Text style={styles.bannerTitle}>CEPTETEB KAMPANYA</Text>
+            <Text style={styles.bannerSub}>
               Size özel indirim ve bonus fırsatlarını keşfedin.
             </Text>
-            <Text style={styles.bannerLink}>Kampanyaları Gör</Text>
           </View>
-          <View style={styles.bannerImageWrap}>
-            <Text style={styles.bannerImageText}>🛍</Text>
-          </View>
+          <TouchableOpacity>
+            <Text style={styles.bannerLink}>Kampanyaları Gör →</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Page Indicator */}
@@ -71,14 +64,14 @@ const AccountListScreenSimple = ({ navigate }) => {
           <View style={styles.dot} />
         </View>
 
-        {/* Calendar / Eye / Bell Row */}
+        {/* Quick Actions */}
         <View style={styles.actionRow}>
           <TouchableOpacity style={styles.actionBtn}>
             <Text style={styles.actionIcon}>📅</Text>
           </TouchableOpacity>
           <View style={styles.actionRight}>
             <TouchableOpacity style={styles.actionBtn}>
-              <Text style={styles.actionIcon}>�</Text>
+              <Text style={styles.actionIcon}>👁</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionBtn}>
               <Text style={styles.actionIcon}>🔔</Text>
@@ -139,17 +132,21 @@ const AccountListScreenSimple = ({ navigate }) => {
       {/* Bottom Tab Bar */}
       <View style={styles.tabBar}>
         {[
-          { label: 'Al Sat', icon: '📈' },
+          { label: 'Ana Sayfa', icon: '🏠' },
           { label: 'Para Transferi', icon: '✈' },
-          { label: 'Ödemeler', icon: '📄' },
-          { label: 'Cüzdan', icon: '💳' },
+          { label: 'Ödeme', icon: '💵' },
+          { label: 'Yatırım', icon: '�' },
+          { label: 'Diğer', icon: '☰' },
         ].map((tab) => (
           <TouchableOpacity
             key={tab.label}
             style={styles.tabItem}
             onPress={() => setActiveTab(tab.label)}
           >
-            <Text style={styles.tabIcon}>{tab.icon}</Text>
+            <Text style={[
+              styles.tabIcon,
+              activeTab === tab.label && styles.tabIconActive
+            ]}>{tab.icon}</Text>
             <Text style={[
               styles.tabLabel,
               activeTab === tab.label && styles.tabLabelActive
@@ -172,89 +169,75 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 20,
   },
-  topHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  profileHeader: {
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingTop: 8,
-    paddingBottom: 4,
+    paddingTop: 12,
+    paddingBottom: 16,
   },
-  iconBtn: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  iconText: {
-    fontSize: 22,
-    color: '#009C4E',
-  },
-  logoWrap: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+  avatarCircle: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     backgroundColor: '#009C4E',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 8,
   },
-  logoText: {
+  avatarText: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 22,
     fontWeight: '700',
   },
-  sizeOzelRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    marginTop: 8,
-    marginBottom: 4,
-  },
-  starIcon: {
-    fontSize: 18,
-    color: '#009C4E',
-    marginRight: 6,
-  },
-  sizeOzelText: {
+  profileName: {
     fontSize: 16,
+    fontWeight: '600',
     color: '#333',
-    fontWeight: '500',
+  },
+  profileSub: {
+    fontSize: 13,
+    color: '#888',
+    marginTop: 2,
   },
   banner: {
-    backgroundColor: '#F5F5F5',
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
+    backgroundColor: '#E8F5E9',
     borderRadius: 12,
     marginHorizontal: 16,
     padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
   },
+  bannerBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#E53E3E',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  bannerBadgeText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '700',
+  },
   bannerTextWrap: {
     flex: 1,
   },
   bannerTitle: {
     fontSize: 13,
-    color: '#333',
-    lineHeight: 18,
+    color: '#009C4E',
+    fontWeight: '700',
+    marginBottom: 2,
+  },
+  bannerSub: {
+    fontSize: 12,
+    color: '#555',
+    lineHeight: 17,
   },
   bannerLink: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#009C4E',
     fontWeight: '600',
-    marginTop: 4,
-  },
-  bannerImageWrap: {
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#E8F5E9',
-    borderRadius: 8,
-    marginLeft: 10,
-  },
-  bannerImageText: {
-    fontSize: 28,
   },
   dotsRow: {
     flexDirection: 'row',
@@ -271,7 +254,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   dotActive: {
-    backgroundColor: '#555',
+    backgroundColor: '#009C4E',
   },
   actionRow: {
     flexDirection: 'row',
@@ -369,7 +352,9 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     flexDirection: 'row',
-    backgroundColor: '#009C4E',
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#E8E8E8',
     paddingBottom: 8,
     paddingTop: 10,
   },
@@ -380,14 +365,18 @@ const styles = StyleSheet.create({
   },
   tabIcon: {
     fontSize: 18,
-    color: '#fff',
+    color: '#888',
     marginBottom: 3,
+  },
+  tabIconActive: {
+    color: '#009C4E',
   },
   tabLabel: {
     fontSize: 10,
-    color: '#fff',
+    color: '#888',
   },
   tabLabelActive: {
+    color: '#009C4E',
     fontWeight: '600',
   },
 });
