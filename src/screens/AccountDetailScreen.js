@@ -50,8 +50,8 @@ const AccountDetailScreen = ({ navigate, goBack, account }) => {
           </View>
           <Text style={styles.headerSubtitle}>{account.accountNumber}</Text>
         </View>
-        <TouchableOpacity style={styles.searchBtn}>
-          <Text style={styles.searchIcon}>🔍</Text>
+        <TouchableOpacity style={styles.settingsBtn}>
+          <Text style={styles.settingsIcon}>⚙</Text>
         </TouchableOpacity>
       </View>
 
@@ -83,7 +83,7 @@ const AccountDetailScreen = ({ navigate, goBack, account }) => {
 
         <View style={styles.row}>
           <Text style={styles.rowLabel}>Bakiye</Text>
-          <Text style={styles.rowValue}>{formatCurrency(account.balance, account.currency)}</Text>
+          <Text style={styles.rowValueLarge}>{formatCurrency(account.balance, account.currency)}</Text>
         </View>
 
         <View style={styles.ibanRow}>
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   },
   backArrow: {
     fontSize: 24,
-    color: '#009C4E',
+    color: '#008444',
   },
   headerCenter: {
     flex: 1,
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   },
   headerStar: {
     fontSize: 16,
-    color: '#009C4E',
+    color: '#008444',
     marginLeft: 6,
   },
   headerSubtitle: {
@@ -173,15 +173,15 @@ const styles = StyleSheet.create({
     color: '#888',
     marginTop: 1,
   },
-  searchBtn: {
+  settingsBtn: {
     width: 40,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  searchIcon: {
+  settingsIcon: {
     fontSize: 20,
-    color: '#009C4E',
+    color: '#008444',
   },
   tabRow: {
     flexDirection: 'row',
@@ -194,8 +194,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   tabBtnActive: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#009C4E',
+    borderBottomWidth: 4,
+    borderBottomColor: '#008444',
   },
   tabText: {
     fontSize: 13,
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   tabTextActive: {
-    color: '#009C4E',
+    color: '#008444',
   },
   content: {
     flex: 1,
@@ -224,7 +224,12 @@ const styles = StyleSheet.create({
   rowValue: {
     fontSize: 14,
     color: '#333',
-    fontWeight: '500',
+    fontWeight: '600',
+  },
+  rowValueLarge: {
+    fontSize: 20,
+    color: '#333',
+    fontWeight: '700',
   },
   rowRight: {
     flexDirection: 'row',
@@ -232,13 +237,13 @@ const styles = StyleSheet.create({
   },
   rowLink: {
     fontSize: 14,
-    color: '#009C4E',
+    color: '#008444',
     fontWeight: '500',
     marginRight: 6,
   },
   rowLinkIcon: {
     fontSize: 16,
-    color: '#009C4E',
+    color: '#008444',
   },
   ibanRow: {
     flexDirection: 'row',
@@ -263,7 +268,7 @@ const styles = StyleSheet.create({
   },
   iconActionText: {
     fontSize: 18,
-    color: '#009C4E',
+    color: '#008444',
   },
   fab: {
     position: 'absolute',
@@ -272,7 +277,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#009C4E',
+    backgroundColor: '#008444',
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 4,

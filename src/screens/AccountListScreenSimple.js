@@ -23,39 +23,32 @@ const AccountListScreenSimple = ({ navigate }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      <StatusBar barStyle="dark-content" backgroundColor="#f5f7f6" />
 
       <ScrollView
         style={styles.content}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Profile Header */}
-        <View style={styles.profileHeader}>
-          <View style={styles.avatarCircle}>
-            <Text style={styles.avatarText}>U</Text>
-          </View>
-          <Text style={styles.profileName}>UĞUR AYHAN</Text>
-          <Text style={styles.profileSub}>Size Özel</Text>
+        <View style={styles.sizeOzelRow}>
+          <Text style={styles.starIcon}>☆</Text>
+          <Text style={styles.sizeOzelText}>Size Özel</Text>
         </View>
 
-        {/* Campaign Banner */}
-        <View style={styles.banner}>
-          <View style={styles.bannerBadge}>
-            <Text style={styles.bannerBadgeText}>1</Text>
-          </View>
+        <View style={styles.bannerCard}>
           <View style={styles.bannerTextWrap}>
-            <Text style={styles.bannerTitle}>CEPTETEB KAMPANYA</Text>
-            <Text style={styles.bannerSub}>
+            <Text style={styles.bannerTitle}>
               Size özel indirim ve bonus fırsatlarını keşfedin.
             </Text>
+            <TouchableOpacity>
+              <Text style={styles.bannerLink}>Kampanyaları Gör</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity>
-            <Text style={styles.bannerLink}>Kampanyaları Gör →</Text>
-          </TouchableOpacity>
+          <View style={styles.bannerImageWrap}>
+            <Text style={styles.bannerImageText}>🛍</Text>
+          </View>
         </View>
 
-        {/* Page Indicator */}
         <View style={styles.dotsRow}>
           <View style={[styles.dot, styles.dotActive]} />
           <View style={styles.dot} />
@@ -64,7 +57,6 @@ const AccountListScreenSimple = ({ navigate }) => {
           <View style={styles.dot} />
         </View>
 
-        {/* Quick Actions */}
         <View style={styles.actionRow}>
           <TouchableOpacity style={styles.actionBtn}>
             <Text style={styles.actionIcon}>📅</Text>
@@ -79,7 +71,6 @@ const AccountListScreenSimple = ({ navigate }) => {
           </View>
         </View>
 
-        {/* Hesaplar Section */}
         <View style={styles.sectionRow}>
           <View style={styles.sectionLeft}>
             <Text style={styles.sectionIcon}>💳</Text>
@@ -90,24 +81,22 @@ const AccountListScreenSimple = ({ navigate }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Account Card */}
         <TouchableOpacity
-          style={styles.accountCard}
+          style={styles.whiteCard}
           onPress={() => navigate('accountDetail', { account })}
           activeOpacity={0.9}
         >
-          <View style={styles.accRow}>
-            <Text style={styles.accName}>{account.accountName}</Text>
-            <Text style={styles.accBalance}>{formatCurrency(account.balance, account.currency)}</Text>
+          <View style={styles.cardTopRow}>
+            <Text style={styles.cardName}>{account.accountName}</Text>
+            <Text style={styles.cardBalance}>{formatCurrency(account.balance, account.currency)}</Text>
           </View>
-          <Text style={styles.accNumber}>{account.accountNumber}</Text>
-          <View style={styles.accRow}>
-            <Text style={styles.accLabel}>Kullanılabilir Bakiye</Text>
-            <Text style={styles.accBalance}>{formatCurrency(account.balance, account.currency)}</Text>
+          <Text style={styles.cardNumber}>{account.accountNumber}</Text>
+          <View style={styles.cardBottomRow}>
+            <Text style={styles.cardLabel}>Kullanılabilir Bakiye</Text>
+            <Text style={styles.cardBalanceSmall}>{formatCurrency(account.balance, account.currency)}</Text>
           </View>
         </TouchableOpacity>
 
-        {/* Kartlar Section */}
         <View style={styles.sectionRow}>
           <View style={styles.sectionLeft}>
             <Text style={styles.sectionIcon}>💳</Text>
@@ -118,35 +107,50 @@ const AccountListScreenSimple = ({ navigate }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Card Card */}
-        <View style={styles.cardCard}>
-          <Text style={styles.cardName}>{card.cardName}</Text>
+        <View style={styles.whiteCard}>
+          <Text style={styles.cardNameUpper}>{card.cardName}</Text>
           <Text style={styles.cardNumber}>{card.cardNumber}</Text>
-          <View style={styles.accRow}>
-            <Text style={styles.accLabel}>Ana Hesap Bakiyesi</Text>
-            <Text style={styles.accBalance}>{formatCurrency(card.balance, card.currency)}</Text>
+          <View style={styles.cardBottomRow}>
+            <Text style={styles.cardLabel}>Ana Hesap Bakiyesi</Text>
+            <Text style={styles.cardBalanceSmall}>{formatCurrency(card.balance, card.currency)}</Text>
           </View>
+        </View>
+
+        <View style={styles.listSection}>
+          <Text style={styles.listSectionIcon}>📊</Text>
+          <Text style={styles.listSectionText}>Yatırımlar</Text>
+        </View>
+        <View style={styles.listSection}>
+          <Text style={styles.listSectionIcon}>💰</Text>
+          <Text style={styles.listSectionText}>Krediler</Text>
+        </View>
+        <View style={styles.listSection}>
+          <Text style={styles.listSectionIcon}>⏱</Text>
+          <Text style={styles.listSectionText}>Talimat İşlemleri</Text>
+        </View>
+        <View style={styles.listSection}>
+          <Text style={styles.listSectionIcon}>📝</Text>
+          <Text style={styles.listSectionText}>Başvurular</Text>
         </View>
       </ScrollView>
 
-      {/* Bottom Tab Bar */}
+      <TouchableOpacity style={styles.fab}>
+        <Text style={styles.fabIcon}>☰</Text>
+      </TouchableOpacity>
+
       <View style={styles.tabBar}>
         {[
-          { label: 'Ana Sayfa', icon: '🏠' },
+          { label: 'Al Sat', icon: '📈' },
           { label: 'Para Transferi', icon: '✈' },
-          { label: 'Ödeme', icon: '💵' },
-          { label: 'Yatırım', icon: '�' },
-          { label: 'Diğer', icon: '☰' },
+          { label: 'Ödemeler', icon: '�' },
+          { label: 'Cüzdan', icon: '👛' },
         ].map((tab) => (
           <TouchableOpacity
             key={tab.label}
             style={styles.tabItem}
             onPress={() => setActiveTab(tab.label)}
           >
-            <Text style={[
-              styles.tabIcon,
-              activeTab === tab.label && styles.tabIconActive
-            ]}>{tab.icon}</Text>
+            <Text style={styles.tabIcon}>{tab.icon}</Text>
             <Text style={[
               styles.tabLabel,
               activeTab === tab.label && styles.tabLabelActive
@@ -159,226 +163,107 @@ const AccountListScreenSimple = ({ navigate }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
+  container: { flex: 1, backgroundColor: '#f5f7f6' },
+  content: { flex: 1 },
+  scrollContent: { paddingBottom: 100 },
+  topHeader: {
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    paddingHorizontal: 16, paddingTop: 8, paddingBottom: 4, backgroundColor: '#f5f7f6',
   },
-  content: {
-    flex: 1,
+  iconBtn: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
+  iconText: { fontSize: 24, color: '#008a45' },
+  logoWrap: {
+    width: 44, height: 44, borderRadius: 8, backgroundColor: '#008a45',
+    justifyContent: 'center', alignItems: 'center',
   },
-  scrollContent: {
-    paddingBottom: 20,
+  logoText: { color: '#fff', fontSize: 22 },
+  sizeOzelRow: {
+    flexDirection: 'row', alignItems: 'center',
+    paddingHorizontal: 16, marginTop: 12, marginBottom: 8,
   },
-  profileHeader: {
-    alignItems: 'center',
-    paddingTop: 12,
-    paddingBottom: 16,
+  starIcon: { fontSize: 22, color: '#008a45', marginRight: 8 },
+  sizeOzelText: { fontSize: 18, color: '#333', fontWeight: '500' },
+  bannerCard: {
+    backgroundColor: '#fff', borderRadius: 16, marginHorizontal: 16, padding: 20,
+    flexDirection: 'row', alignItems: 'center',
+    shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05, shadowRadius: 4, elevation: 2,
+    borderWidth: 1, borderColor: '#eee',
   },
-  avatarCircle: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#009C4E',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
+  bannerTextWrap: { flex: 1 },
+  bannerTitle: { fontSize: 14, color: '#555', lineHeight: 20, marginBottom: 8 },
+  bannerLink: { fontSize: 14, color: '#008a45', fontWeight: '700' },
+  bannerImageWrap: {
+    width: 80, height: 80, justifyContent: 'center', alignItems: 'center',
+    backgroundColor: '#E8F5E9', borderRadius: 12, marginLeft: 12,
+    borderWidth: 3, borderColor: '#008a45',
   },
-  avatarText: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: '700',
-  },
-  profileName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-  },
-  profileSub: {
-    fontSize: 13,
-    color: '#888',
-    marginTop: 2,
-  },
-  banner: {
-    backgroundColor: '#E8F5E9',
-    borderRadius: 12,
-    marginHorizontal: 16,
-    padding: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  bannerBadge: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#E53E3E',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  bannerBadgeText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  bannerTextWrap: {
-    flex: 1,
-  },
-  bannerTitle: {
-    fontSize: 13,
-    color: '#009C4E',
-    fontWeight: '700',
-    marginBottom: 2,
-  },
-  bannerSub: {
-    fontSize: 12,
-    color: '#555',
-    lineHeight: 17,
-  },
-  bannerLink: {
-    fontSize: 12,
-    color: '#009C4E',
-    fontWeight: '600',
-  },
+  bannerImageText: { fontSize: 32 },
   dotsRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 8,
+    flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+    marginTop: 12, marginBottom: 8,
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#ccc',
-    marginHorizontal: 4,
+    width: 8, height: 8, borderRadius: 4,
+    backgroundColor: '#ccc', marginHorizontal: 4,
   },
-  dotActive: {
-    backgroundColor: '#009C4E',
-  },
+  dotActive: { backgroundColor: '#555' },
   actionRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    marginBottom: 12,
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    paddingHorizontal: 20, paddingVertical: 10, marginBottom: 8,
   },
-  actionRight: {
-    flexDirection: 'row',
-  },
-  actionBtn: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-  },
-  actionIcon: {
-    fontSize: 20,
-    color: '#009C4E',
-  },
+  actionRight: { flexDirection: 'row', gap: 16 },
+  actionBtn: { padding: 4 },
+  actionIcon: { fontSize: 22, color: '#008a45' },
   sectionRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    marginTop: 12,
-    marginBottom: 6,
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    paddingHorizontal: 16, marginTop: 16, marginBottom: 8,
   },
-  sectionLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  sectionIcon: {
-    fontSize: 18,
-    color: '#666',
-    marginRight: 8,
-  },
-  sectionTitle: {
-    fontSize: 15,
-    color: '#333',
-    fontWeight: '500',
-  },
-  sectionLink: {
-    fontSize: 13,
-    color: '#009C4E',
-    fontWeight: '600',
-  },
-  accountCard: {
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
-    marginHorizontal: 16,
-    padding: 14,
+  sectionLeft: { flexDirection: 'row', alignItems: 'center' },
+  sectionIcon: { fontSize: 20, color: '#888', marginRight: 10 },
+  sectionTitle: { fontSize: 16, color: '#555', fontWeight: '500' },
+  sectionLink: { fontSize: 12, color: '#008a45', fontWeight: '700' },
+  whiteCard: {
+    backgroundColor: '#fff', borderRadius: 10, marginHorizontal: 16, padding: 16,
     marginBottom: 8,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05, shadowRadius: 3, elevation: 1,
+    borderWidth: 1, borderColor: '#eee',
   },
-  accRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  cardTopRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+  cardName: { fontSize: 16, color: '#333', fontWeight: '500' },
+  cardNameUpper: { fontSize: 16, color: '#333', fontWeight: '600' },
+  cardBalance: { fontSize: 18, color: '#333', fontWeight: '600' },
+  cardNumber: { fontSize: 13, color: '#999', marginVertical: 4 },
+  cardBottomRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 4 },
+  cardLabel: { fontSize: 13, color: '#888' },
+  cardBalanceSmall: { fontSize: 14, color: '#333', fontWeight: '600' },
+  listSection: {
+    flexDirection: 'row', alignItems: 'center',
+    paddingHorizontal: 16, paddingVertical: 14,
+    borderBottomWidth: 1, borderBottomColor: '#eee',
+    backgroundColor: '#fff', marginHorizontal: 16,
   },
-  accName: {
-    fontSize: 15,
-    color: '#333',
-    fontWeight: '500',
+  listSectionIcon: { fontSize: 20, color: '#888', marginRight: 12 },
+  listSectionText: { fontSize: 16, color: '#555', fontWeight: '500' },
+  fab: {
+    position: 'absolute', left: '50%', bottom: 70,
+    width: 56, height: 56, borderRadius: 28,
+    backgroundColor: '#008a45',
+    justifyContent: 'center', alignItems: 'center',
+    marginLeft: -28,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2, shadowRadius: 8, elevation: 6,
   },
-  accNumber: {
-    fontSize: 13,
-    color: '#666',
-    marginVertical: 4,
-  },
-  accLabel: {
-    fontSize: 13,
-    color: '#666',
-    marginTop: 4,
-  },
-  accBalance: {
-    fontSize: 15,
-    color: '#333',
-    fontWeight: '500',
-  },
-  cardCard: {
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
-    marginHorizontal: 16,
-    padding: 14,
-    marginBottom: 12,
-  },
-  cardName: {
-    fontSize: 15,
-    color: '#333',
-    fontWeight: '600',
-  },
-  cardNumber: {
-    fontSize: 13,
-    color: '#666',
-    marginVertical: 4,
-  },
+  fabIcon: { fontSize: 24, color: '#fff' },
   tabBar: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#E8E8E8',
-    paddingBottom: 8,
-    paddingTop: 10,
+    flexDirection: 'row', backgroundColor: '#008a45',
+    paddingBottom: 8, paddingTop: 10,
   },
-  tabItem: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tabIcon: {
-    fontSize: 18,
-    color: '#888',
-    marginBottom: 3,
-  },
-  tabIconActive: {
-    color: '#009C4E',
-  },
-  tabLabel: {
-    fontSize: 10,
-    color: '#888',
-  },
-  tabLabelActive: {
-    color: '#009C4E',
-    fontWeight: '600',
-  },
+  tabItem: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  tabIcon: { fontSize: 18, color: '#fff', marginBottom: 3 },
+  tabLabel: { fontSize: 10, color: '#fff' },
+  tabLabelActive: { fontWeight: '700' },
 });
 
 export default AccountListScreenSimple;

@@ -75,24 +75,28 @@ const TransactionListScreenSimple = ({ navigate, goBack, account }) => {
           <Text style={styles.txTime}>{formatTime(tx.date)}</Text>
         </View>
         <View style={styles.txBody}>
-          <Text style={styles.txDesc}>{tx.description}</Text>
+          <View style={styles.txTopRow}>
+            <Text style={styles.txDesc} numberOfLines={2}>{tx.description.toUpperCase()}</Text>
+            <Text style={[styles.txAmount, isPositive ? styles.positive : styles.negative]}>
+              {isPositive ? '' : '-'}{formatCurrency(tx.amount, account?.currency)}
+            </Text>
+          </View>
           <View style={styles.txActions}>
-            <TouchableOpacity>
-              <Text style={styles.txActionText}>Tekrarla</Text>
-            </TouchableOpacity>
-            <Text style={styles.txActionSep}>|</Text>
+            {isPositive ? null : (
+              <>
+                <TouchableOpacity>
+                  <Text style={styles.txActionText}>Tekrarla</Text>
+                </TouchableOpacity>
+                <Text style={styles.txActionSep}>|</Text>
+              </>
+            )}
             <TouchableOpacity
               onPress={() => navigate('receipt', { receiptNumber: tx.receiptNumber })}
             >
               <Text style={styles.txActionText}>Dekont</Text>
             </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.txRight}>
-          <Text style={[styles.txAmount, isPositive ? styles.positive : styles.negative]}>
-            {isPositive ? '' : '-'}{formatCurrency(tx.amount, account?.currency)}
-          </Text>
-          <Text style={styles.txBalance}>Bakiye: {formatCurrency(tx.balance, account?.currency)}</Text>
+          <Text style={styles.txBalance}>Bakiye: <Text style={styles.txBalanceVal}>{formatCurrency(tx.balance, account?.currency)}</Text></Text>
         </View>
       </View>
     );
@@ -160,6 +164,10 @@ const TransactionListScreenSimple = ({ navigate, goBack, account }) => {
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
       />
+
+      <TouchableOpacity style={styles.fab}>
+        <Text style={styles.fabIcon}>☰</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -186,7 +194,7 @@ const styles = StyleSheet.create({
   },
   backArrow: {
     fontSize: 24,
-    color: '#009C4E',
+    color: '#00874c',
   },
   headerCenter: {
     flex: 1,
@@ -203,7 +211,7 @@ const styles = StyleSheet.create({
   },
   headerStar: {
     fontSize: 16,
-    color: '#009C4E',
+    color: '#00874c',
     marginLeft: 6,
   },
   headerSubtitle: {
@@ -219,7 +227,7 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     fontSize: 20,
-    color: '#009C4E',
+    color: '#00874c',
   },
   tabRow: {
     flexDirection: 'row',
@@ -233,7 +241,7 @@ const styles = StyleSheet.create({
   },
   tabBtnActive: {
     borderBottomWidth: 2,
-    borderBottomColor: '#009C4E',
+    borderBottomColor: '#00874c',
   },
   tabText: {
     fontSize: 13,
@@ -241,7 +249,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   tabTextActive: {
-    color: '#009C4E',
+    color: '#00874c',
   },
   filterRow: {
     flexDirection: 'row',
@@ -266,7 +274,7 @@ const styles = StyleSheet.create({
   },
   filterChevron: {
     fontSize: 10,
-    color: '#009C4E',
+    color: '#00874c',
   },
   listContent: {
     paddingBottom: 20,
@@ -309,38 +317,44 @@ const styles = StyleSheet.create({
   },
   txBody: {
     flex: 1,
-    paddingHorizontal: 10,
+    paddingLeft: 10,
+  },
+  txTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
   txDesc: {
-    fontSize: 14,
-    color: '#333',
-    fontWeight: '500',
+    fontSize: 13,
+    color: '#555',
+    fontWeight: '600',
     lineHeight: 18,
+    flex: 1,
+    marginRight: 8,
+    textTransform: 'uppercase',
   },
   txActions: {
     flexDirection: 'row',
-    marginTop: 6,
+    marginTop: 4,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   txActionText: {
     fontSize: 12,
-    color: '#009C4E',
-    fontWeight: '500',
+    color: '#00874c',
+    fontWeight: '600',
   },
   txActionSep: {
     fontSize: 12,
     color: '#ccc',
     marginHorizontal: 6,
   },
-  txRight: {
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-  },
   txAmount: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
   },
   positive: {
-    color: '#009C4E',
+    color: '#00874c',
   },
   negative: {
     color: '#333',
@@ -348,7 +362,32 @@ const styles = StyleSheet.create({
   txBalance: {
     fontSize: 11,
     color: '#888',
-    marginTop: 4,
+    marginTop: 2,
+    textAlign: 'right',
+  },
+  txBalanceVal: {
+    fontWeight: '700',
+    color: '#333',
+  },
+  fab: {
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#00874c',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  fabIcon: {
+    fontSize: 22,
+    color: '#fff',
   },
 });
 
